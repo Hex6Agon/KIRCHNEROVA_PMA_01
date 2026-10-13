@@ -1,15 +1,29 @@
 
 import { StatusBar } from 'expo-status-bar';
+import { useState } from 'react';
 import { StyleSheet, Text, View, TextInput, Button } from 'react-native';
 
 export default function App() {
+  const[text, setText] = useState('');
+  const [taskList , setTaskList] = useState([]);
+  function inputHandler(text) {
+    setText(text);
+    console.log(text);
+  }
+  
+  function addHandler() {
+    setTaskList([...taskList, text]);
+  }
   return (
     <View style={styles.appContainer}>
       <View style = {styles.inputContainer}>
         <TextInput style={styles.inputText} placeholder = "Zadaj ulohu"/>
-        <Button title="ADD"></Button>
+        <Button onPress={addHandler} title="ADD"></Button>
       </View>
       <View style = {styles.taskContainer}>
+        {taskList.map((i) => {
+          return <Text>(i)</Text>;
+        })}
         <Text>UDALOSTI ::::::</Text>
       </View>
       <Text>TaskApp</Text>
@@ -38,5 +52,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#dbbeff",
     flex: 0.5,
   },
+  taskText: {
+    backgroundColor: "#dc003000",
+  }
 
 });
