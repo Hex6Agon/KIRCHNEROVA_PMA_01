@@ -13,21 +13,25 @@ export default function App() {
   
   function addHandler() {
     setTaskList([...taskList, text]);
+    setText("");
   }
-  return (
-    <View style={styles.appContainer}>
-      <View style = {styles.inputContainer}>
-        <TextInput style={styles.inputText} placeholder = "Zadaj ulohu"/>
+  return ( 
+      <View style={styles.appContainer}>
+      <View style={styles.inputContainer}>
+        <Text>TaskApp</Text>
+        <TextInput onChangeText={inputHandler} style={styles.inputText} placeholder="Zadaj ulohu" />
         <Button onPress={addHandler} title="ADD"></Button>
       </View>
-      <View style = {styles.taskContainer}>
-        {taskList.map((i) => {
-          return <Text>(i)</Text>;
-        })}
+      <View style={styles.taskContainer}>
         <Text>UDALOSTI ::::::</Text>
-      </View>
-      <Text>TaskApp</Text>
-      <StatusBar style="auto" />
+        {taskList.map((i) => (
+          <Text style={styles.taskText} key={i}>
+          {i}/>
+      </Text>;
+        ))}
+
+    </View>
+    <StatusBar style="auto" />
     </View>
   );
 }
