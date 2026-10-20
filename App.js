@@ -1,63 +1,102 @@
-
 import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
-import { StyleSheet, Text, View, TextInput, Button } from 'react-native';
+import { StyleSheet, Text, TextInput, View, Button, ScrollView, FlatList } from 'react-native';
+import TaskItem from './src/components/TaskItem';
+
 
 export default function App() {
   const[text, setText] = useState('');
-  const [taskList , setTaskList] = useState([]);
+  const[taskList, setTaskList] = useState([]);
+  
+
   function inputHandler(text) {
     setText(text);
-    console.log(text);
   }
-  
   function addHandler() {
-    setTaskList([...taskList, text]);
-    setText("");
+    setTaskList([...taskList, {title: text, done: true }]);
+    setText('');
   }
-  return ( 
-      <View style={styles.appContainer}>
-      <View style={styles.inputContainer}>
-        <Text>TaskApp</Text>
-        <TextInput onChangeText={inputHandler} style={styles.inputText} placeholder="Zadaj ulohu" />
-        <Button onPress={addHandler} title="ADD"></Button>
-      </View>
-      <View style={styles.taskContainer}>
-        <Text>UDALOSTI ::::::</Text>
-        {taskList.map((i) => (
-          <Text style={styles.taskText} key={i}>
-          {i}/>
-      </Text>;
-        ))}
 
+  return (
+    <View style={styles.container}>
+
+      <View style={styles.inputContainer}>
+        
+      <TextInput
+      onChangeText={inputHandler}
+      style={styles.input}
+      placeholder="Zadaj text"
+      value={text}
+      />
+
+
+        <Button onPress={addHandler} title='Zadaj' color="#6f55a6" />
+      </View>
+
+      <FlatList
+        data={taskList}
+        renderItem={({ item }) => (
+          <TaskItem
+            itemTask={item}
+            handleTaskDone={() => {
+              item.done = !item.done;
+              setTaskList([...taskList]);
+            }}
+          />
+        )}
+        keyExtractor={item => item.id}
+      />
+
+      <StatusBar style="auto" />
     </View>
-    <StatusBar style="auto" />
-    </View>
+
   );
 }
 
-const styles = StyleSheet.create({
-  appContainer: {
-    flex: 1,
-    backgroundColor: "#ffbce2",
-  },
-  inputContainer: {
-    borderWidth: 10,
-    borderRadius: 8,
-    borderColor: "#b00b69",
-    justifyContent: "space-between",
-    flexDirection: "row"
-  },
-  inputText: {},
-  taskContainer: {
-    backgroundColor: "#91bff8"
-  },
-  inputContainer: {
-    backgroundColor: "#dbbeff",
-    flex: 0.5,
-  },
-  taskText: {
-    backgroundColor: "#dc003000",
-  }
 
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+  },
+
+  input: {
+    borderWidth: 3,
+    borderRadius: 2,
+    borderColor: '#c9ff4c',
+    width: '80%',
+    height: 35,
+    padding: 5,
+    backgroundColor: '#b67fff',
+  },
+
+  inputContainer: {
+    height: 120,
+    paddingHorizontal: 15,
+    paddingTop: 40,
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    justifyContent: 'space-between',
+    backgroundColor: '#b67fff',
+  },
+
+  taskContainer: {
+    flex: 1,
+    backgroundColor: '#473066',
+    borderTopWidth: 3,
+    paddingTop: 10,
+    borderWidth: 3,
+    borderColor: '#473066'
+  },
+
+  taskText: {
+    backgroundColor: 'lightpink',
+    marginHorizontal: 15,
+    marginVertical: 5,
+    padding: 8,
+    borderRadius: 4,
+    fontSize: 14,
+    borderWidth: 3,
+    borderColor: '#473066'
+  },
 });
