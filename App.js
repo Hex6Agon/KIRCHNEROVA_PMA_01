@@ -13,8 +13,19 @@ export default function App() {
     setText(text);
   }
   function addHandler() {
+    let id = "id" + Math.random().toString(16).slice(2);
     setTaskList([...taskList, {title: text, done: true }]);
     setText('');
+  }
+
+  function handleTaskDone(id) {
+    taskList.map((t) => {
+      if(t.id == id) {
+        return {...t, done: !t.done}
+      } else {
+        return t ;
+      }
+    })
   }
 
   return (
