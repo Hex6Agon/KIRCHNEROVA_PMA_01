@@ -1,10 +1,30 @@
+import { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Button } from 'react-native';
 
 export default function App() {
+  const [count, setCount] = useState(0);
+
   return (
     <View style={styles.container}>
-      <Text>Projekt PMA</Text>
+      <Text>Pocitadlo Objednavok</Text>
+      <Text>{count}</Text>
+
+      <Button
+        title="+"
+        onPress={() => setCount(count + 1)}
+      />
+
+      <Button
+        title="-"
+        onPress={() => setCount(count - 1)}
+      />
+
+      <Button
+        title="Reset"
+        onPress={() => setCount(0)}
+      />
+
       <StatusBar style="auto" />
     </View>
   );
